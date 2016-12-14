@@ -136,6 +136,13 @@ class HomeController extends Controller
                             $title = explode('">', $single)[3];
                             $title = explode('</a>', $title)[0];
 
+                            // bug
+                            $wtf = '*__cf_email__*';
+                            $oh_boy = 'Caravana> lavras@CPBR:~$';
+                            if (str_is($wtf, $title)) {
+                                $title = $oh_boy;
+                            }
+
                             // the number of subscribers in the activity.
                             $subscribers = $this->between('<span class="attendees right">', '</span>', $single);
 
