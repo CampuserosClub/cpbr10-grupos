@@ -68,7 +68,7 @@
                     Developed by <a href="https://twitter.com/jaonoctus" target="_blank">@jaonoctus</a>
                     <span class="hidden-xs">|</span><span class="visible-xs"><br /></span>
                     Made with <i class="fa fa-heart-o"></i>.
-                    We are on <a href="https://github.com/CampuserosClub/cpbr10-curadores" class="alert-link" target="_blank">GitHub</a>
+                    We are on <a href="https://github.com/CampuserosClub/cpbr10-grupos" class="alert-link" target="_blank">GitHub</a>
                 </p>
             </div>
         </footer>
