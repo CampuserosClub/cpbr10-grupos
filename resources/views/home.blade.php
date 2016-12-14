@@ -34,7 +34,7 @@
                 <div class="col-md-4">
                     <div class="panel panel-default">
                         <div class="panel-heading text-center text-uppercase">
-                            <b>Total de grupos/comunidades</b>
+                            <b>Total de grupos</b>
                         </div>
                         <div class="panel-body text-center">
                             <h2>{{ $sum_groups }}</h2>

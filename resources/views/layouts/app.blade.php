@@ -8,7 +8,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>Grupos/Comunidades #CPBR10</title>
+    <title>Grupos #CPBR10</title>
 
     <!-- Styles -->
     <link href="/css/app.css" rel="stylesheet">
@@ -39,7 +39,7 @@
                 </div>
 
                 <span align="center">
-                    <h1>Grupos/Comunidades<br /><small>#CPBR10</small></h1>
+                    <h1>Grupos<br /><small>#CPBR10</small></h1>
                 </span>
             </div>
         </nav>
