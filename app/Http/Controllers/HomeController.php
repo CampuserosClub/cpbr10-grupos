@@ -8,20 +8,19 @@ use Carbon\Carbon;
 class HomeController extends Controller
 {
     /**
-     * Activities.
+     * Groups.
      *
      * @var array
      */
-    protected $atividades = [];
+    protected $groups = [];
 
     /**
-     * Links to search the activities.
+     * Links to search the groups.
      *
      * @var array
      */
     protected $urls = [
-        'workshop' => 'http://campuse.ro/events/vire-um-curador-na-cpbr10-votos/workshop',
-        'talk'     => 'http://campuse.ro/events/vire-um-curador-na-cpbr10-votos/talk',
+        'grupos' => 'http://campuse.ro/events/CPBR10-Grupos/workshop',
     ];
 
     /**
@@ -49,7 +48,7 @@ class HomeController extends Controller
         });
 
         // Transform array to Laravel Collection.
-        $this->atividades = collect($this->atividades);
+        $this->groups = collect($this->groups);
 
         // Get the urls.
         $urls = $this->urls;
@@ -57,13 +56,16 @@ class HomeController extends Controller
         // Create an empty collection for all tags.
         $all_tags = collect([]);
 
-        // If there are no activities in the cache.
-        if (!Cache::has('atividades')) {
+        // If there are no groups in the cache.
+        if (!Cache::has('groups')) {
             // For each URL..
             foreach ($urls as $key => $url) {
                 // Number of pages.
-                // As the second phase has already closed, this number will never change.
-                $times = ($key == 'workshop') ? 2 : 9;
+                $campusero_pages_init = file_get_contents($url);
+                $content_pages_dirty = $this->between('<div class="pagination text-center">', "</div>\n</div>", $campusero_pages_init);
+                $content_pages_find = '<a href="';
+                $content_pages = collect(explode($content_pages_find, $content_pages_dirty));
+                $times = $content_pages->count() - 2;
 
                 // For each page..
                 for ($page = 1; $page <= $times; $page++) {
@@ -76,7 +78,7 @@ class HomeController extends Controller
                     $xablau1 = explode('row collapse table-header light-theme', $list)[1];
                     $all = collect(explode('row collapse table-body light-theme', $xablau1));
 
-                    // After breaking, all activities are in $all, but still in html.
+                    // After breaking, all groups are in $all, but still in html.
                     foreach ($all as $k => $single) {
                         // The first occurrence isn't a activity, so let's skip it.
                         if ($k != 0) {
@@ -88,7 +90,7 @@ class HomeController extends Controller
                             // Count how many tags have.
                             $tags_num = collect($content_tags_dirty)->count() - 1;
 
-                            // Create an empty collection for all activities tags.
+                            // Create an empty collection for all groups tags.
                             $tags = collect([]);
                             for ($i = 1; $i <= $tags_num; $i++) {
                                 // Sanitize, remove the html.
@@ -96,7 +98,7 @@ class HomeController extends Controller
                                 $tag = str_replace("\n", '', $tag);
                                 $slug = str_slug($tag);
 
-                                // Add tag into activities $tags collection.
+                                // Add tag into groups $tags collection.
                                 $tags->put($slug, $tag);
 
                                 // If this tag has not yet been registered..
@@ -138,7 +140,7 @@ class HomeController extends Controller
                             $subscribers = $this->between('<span class="attendees right">', '</span>', $single);
 
                             // the activity.
-                            $atividade = [
+                            $group = [
                                 'link'        => $link,
                                 'title'       => $title,
                                 'subscribers' => $subscribers,
@@ -146,8 +148,8 @@ class HomeController extends Controller
                                 'tags'        => $tags,
                             ];
 
-                            // Add the activity in the collection of activities.
-                            $this->atividades->push($atividade);
+                            // Add the activity in the collection of groups.
+                            $this->groups->push($group);
                         }
                     }
                 }
@@ -162,13 +164,13 @@ class HomeController extends Controller
         // Verify if have to filter by tag.
         $filter_tag = (isset($_GET['tag'])) ? $_GET['tag'] : null;
 
-        $atividades = $this->atividades->sortByDesc('subscribers');
+        $groups = $this->groups->sortByDesc('subscribers');
 
-        // If all activities haven't been saved yet.
-        if (!Cache::has('atividades')) {
+        // If all groups haven't been saved yet.
+        if (!Cache::has('groups')) {
             // Check the position of each activity.
             $i = 0;
-            $atividades->transform(function ($item, $key) use ($i) {
+            $groups->transform(function ($item, $key) use ($i) {
                 $this->i = (isset($this->i)) ? $this->i : $i;
                 $this->i++;
                 $item['position'] = $this->i;
@@ -177,27 +179,27 @@ class HomeController extends Controller
             });
         }
 
-        // Stores all activities. For don't process the script again.
-        $atividades = Cache::remember('atividades', $this->cache_time, function () use ($atividades) {
+        // Stores all groups. For don't process the script again.
+        $groups = Cache::remember('groups', $this->cache_time, function () use ($groups) {
             // Sort/Order by quantity of subscribers.
-            return $atividades;
+            return $groups;
         });
 
         // If have to filter by tag.
         if (!is_null($filter_tag)) {
-            // Return only Activities have the tag.
-            $atividades = $atividades->filter(function ($value, $key) use ($filter_tag) {
+            // Return only groups have the tag.
+            $groups = $groups->filter(function ($value, $key) use ($filter_tag) {
                 return $value['tags']->has($filter_tag);
             });
         }
 
         // Organize the data to pass to the view.
-        $data['atividades'] = $atividades;
-        $data['sum_subscribers'] = Cache::remember('sum_subscribers', $this->cache_time, function () use ($atividades) {
-            return $atividades->sum('subscribers');
+        $data['groups'] = $groups;
+        $data['sum_subscribers'] = Cache::remember('sum_subscribers', $this->cache_time, function () use ($groups) {
+            return $groups->sum('subscribers');
         });
-        $data['sum_activities'] = Cache::remember('sum_activities', $this->cache_time, function () use ($atividades) {
-            return $atividades->count();
+        $data['sum_groups'] = Cache::remember('sum_groups', $this->cache_time, function () use ($groups) {
+            return $groups->count();
         });
         $data['last_sync'] = $last_sync;
         $data['all_tags'] = $all_tags->sort();

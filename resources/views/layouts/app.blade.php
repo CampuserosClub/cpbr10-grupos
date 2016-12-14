@@ -8,7 +8,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>Vire um curador #CPBR10</title>
+    <title>Grupos/Comunidades #CPBR10</title>
 
     <!-- Styles -->
     <link href="/css/app.css" rel="stylesheet">
@@ -39,7 +39,7 @@
                 </div>
 
                 <span align="center">
-                    <h1>Vire um curador<br /><small>#CPBR10</small></h1>
+                    <h1>Grupos/Comunidades<br /><small>#CPBR10</small></h1>
                 </span>
             </div>
         </nav>
@@ -65,7 +65,7 @@
             <div class="container">
                 <p>
                     <br />
-                    Developed by <a href="https://twitter.com/jaonoctus" target="_blank">@jaonoctus</a> and <a href="https://www.facebook.com/LucasNicolauOliveira" class="alert-link" target="_blank">Lucas</a>
+                    Developed by <a href="https://twitter.com/jaonoctus" target="_blank">@jaonoctus</a>
                     <span class="hidden-xs">|</span><span class="visible-xs"><br /></span>
                     Made with <i class="fa fa-heart-o"></i>.
                     We are on <a href="https://github.com/CampuserosClub/cpbr10-curadores" class="alert-link" target="_blank">GitHub</a>

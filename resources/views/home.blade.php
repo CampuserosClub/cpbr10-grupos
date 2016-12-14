@@ -23,7 +23,7 @@
                 <div class="col-md-4">
                     <div class="panel panel-default">
                         <div class="panel-heading text-center text-uppercase">
-                            <b>Total de votos/inscritos</b>
+                            <b>Total de participantes</b>
                         </div>
                         <div class="panel-body text-center">
                             <h2>{{ $sum_subscribers }}</h2>
@@ -34,10 +34,10 @@
                 <div class="col-md-4">
                     <div class="panel panel-default">
                         <div class="panel-heading text-center text-uppercase">
-                            <b>Total de atividades</b>
+                            <b>Total de grupos/comunidades</b>
                         </div>
                         <div class="panel-body text-center">
-                            <h2>{{ $sum_activities }}</h2>
+                            <h2>{{ $sum_groups }}</h2>
                             <br />
                         </div>
                     </div>
@@ -80,16 +80,16 @@
 
                         <div class="panel-body">
                             <div class="visible-xs">
-                                @foreach ($atividades as $atividade)
+                                @foreach ($groups as $group)
                                     <div>
-                                        <p><h3 class="text-center">{{ $atividade['position'] }}º <br /><small>{{ $atividade['subscribers'] }} inscritos</small></h3></p>
+                                        <p><h3 class="text-center">{{ $group['position'] }}º <br /><small>{{ $group['subscribers'] }} inscritos</small></h3></p>
                                         <p class="text-center small">
-                                            <a href="{{ $atividade['link'] }}" target="_blank">
-                                                {{ $atividade['title'] }}
+                                            <a href="{{ $group['link'] }}" target="_blank">
+                                                {{ $group['title'] }}
                                             </a>
                                         </p>
                                         <p class="text-center">
-                                            @foreach ($atividade['tags'] as $tag)
+                                            @foreach ($group['tags'] as $tag)
                                                 <span class="badge"><small>{{ $tag }}</small></span>
                                             @endforeach
                                         </p>
@@ -108,17 +108,17 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach ($atividades as $atividade)
+                                        @foreach ($groups as $group)
                                         <tr>
-                                            <th class="text-center" style="vertical-align: middle;">{{ $atividade['position'] }}º</th>
-                                            <th class="text-center" style="vertical-align: middle;">{{ $atividade['subscribers'] }}</th>
+                                            <th class="text-center" style="vertical-align: middle;">{{ $group['position'] }}º</th>
+                                            <th class="text-center" style="vertical-align: middle;">{{ $group['subscribers'] }}</th>
                                             <th class="text-center" style="vertical-align: middle;">
-                                                <a href="{{ $atividade['link'] }}" target="_blank">
-                                                    {{ $atividade['title'] }}
+                                                <a href="{{ $group['link'] }}" target="_blank">
+                                                    {{ $group['title'] }}
                                                 </a>
                                             </th>
                                             <th class="text-center" style="vertical-align: middle;">
-                                                @foreach ($atividade['tags'] as $tag)
+                                                @foreach ($group['tags'] as $tag)
                                                     <span class="badge">{{ $tag }}</span>
                                                 @endforeach
                                             </th>
